@@ -14,12 +14,17 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.rlgl.databinding.ActivityMainBinding
+import kotlinx.coroutines.delay
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private var running = false
     private var sensorManager: SensorManager? = null
     private lateinit var binding: ActivityMainBinding
+    private var count = 0
+    private var yeet = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +46,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onResume() {
         super.onResume()
         running = true
-        val stepsSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+        val stepsSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         if (stepsSensor == null) {
             Toast.makeText(this, "No Step Counter Sensor present on this phone!", Toast.LENGTH_SHORT).show()
         } else {
-            sensorManager?.registerListener(this, stepsSensor, SensorManager.SENSOR_DELAY_UI)
+            sensorManager?.registerListener(this, stepsSensor, SensorManager.SENSOR_DELAY_NORMAL)
         }
     }
 
@@ -54,7 +59,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         println(event!!.values[0])
         if (running) {
             val totalSteps = event!!.values[0];
-            binding.stepCounter.text = totalSteps.toString()
+            if (totalSteps > 5 && !yeet) {
+                count++
+                yeet = true
+            }
+            if(totalSteps < 1 && yeet) {
+                yeet=false
+            }
+//            binding.stepCounter.text = totalSteps.toString()
+            binding.stepCounter.text = count.toString()
         }
     }
 
