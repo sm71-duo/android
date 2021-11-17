@@ -14,7 +14,8 @@ class MovementViewModel: ViewModel() {
         zMovement = z
     }
 
-    fun getMovementX(): Float {
-        return xMovement
+    fun getTotalMovement(): Float {
+        var test = xMovement + yMovement + zMovement
+        return test
     }
 }

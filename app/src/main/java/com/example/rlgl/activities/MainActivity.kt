@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
 
     private var mAcceleration: Sensor? = null
 
-    val shakeViewModel: ShakeViewModel by viewModels()
-    val movementViewModel: MovementViewModel by viewModels()
+    private val shakeViewModel: ShakeViewModel by viewModels()
+    private val movementViewModel: MovementViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +67,8 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
         val accelerationZ = event!!.values[2]
 
         movementViewModel.setMovement(accelerationX, accelerationY, accelerationZ)
-        binding.xMovement.text = movementViewModel.xMovement.toString()
+        val yeet  = movementViewModel.getTotalMovement()
+        binding.xMovement.text = yeet.toString()
     }
 
 
