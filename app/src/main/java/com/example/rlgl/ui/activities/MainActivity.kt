@@ -1,4 +1,4 @@
-package com.example.rlgl
+package com.example.rlgl.ui.activities
 
 import android.Manifest
 import android.content.Context
