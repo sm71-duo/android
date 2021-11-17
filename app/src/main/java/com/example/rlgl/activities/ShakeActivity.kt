@@ -1,23 +1,28 @@
 package com.example.rlgl.activities
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.hardware.SensorManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.databinding.DataBindingUtil.setContentView
 import com.example.rlgl.databinding.ActivityMainBinding
 import com.example.rlgl.viewmodels.ShakeViewModel
 import com.squareup.seismic.ShakeDetector
 
-class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
+class ShakeActivity : Activity(), ShakeDetector.Listener {
 
     private var sensorManager: SensorManager? = null
     private var shakeDetector: ShakeDetector? = null
-    private var steps = 0;
     private lateinit var binding: ActivityMainBinding
 
     private  val shakeViewModel: ShakeViewModel = ShakeViewModel()
@@ -43,6 +48,5 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
 
     override fun hearShake() {
         shakeViewModel.updateShakesAmount()
-        binding.stepCounter.text = shakeViewModel.currentAmountOfShakes.toString()
     }
 }
