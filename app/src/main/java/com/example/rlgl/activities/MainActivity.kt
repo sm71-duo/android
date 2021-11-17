@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
 
     private var sensorManager: SensorManager? = null
     private var shakeDetector: ShakeDetector? = null
-    private var steps = 0;
     private lateinit var binding: ActivityMainBinding
 
     private  val shakeViewModel: ShakeViewModel = ShakeViewModel()
@@ -29,6 +28,15 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
         val view: View = binding.root
         setContentView(view)
 
+        initializeShaker()
+    }
+
+    override fun hearShake() {
+        shakeViewModel.updateShakesAmount()
+        binding.stepCounter.text = shakeViewModel.currentAmountOfShakes.toString()
+    }
+
+    private fun initializeShaker() {
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         shakeDetector = ShakeDetector(this);
         shakeDetector!!.start(sensorManager)
@@ -39,10 +47,5 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
                 requestPermissions(arrayOf(Manifest.permission.ACTIVITY_RECOGNITION), 1)
             };
         }
-    }
-
-    override fun hearShake() {
-        shakeViewModel.updateShakesAmount()
-        binding.stepCounter.text = shakeViewModel.currentAmountOfShakes.toString()
     }
 }

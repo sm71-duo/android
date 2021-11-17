@@ -7,7 +7,7 @@ class ShakeViewModel : ViewModel() {
     private val totalShakes : Int = 100
     var shakesCompleted : Boolean = false
 
-    fun setComplete() {
+    private fun setComplete() {
         shakesCompleted = true
     }
 
