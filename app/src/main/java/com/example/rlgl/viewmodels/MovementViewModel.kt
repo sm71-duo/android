@@ -1,21 +1,22 @@
 package com.example.rlgl.viewmodels
 
 import androidx.lifecycle.ViewModel
+import kotlin.math.abs
+import kotlin.math.floor
 
 class MovementViewModel: ViewModel() {
-    var xMovement: Float = 0F
-    var yMovement: Float = 0F
-    var zMovement: Float = 0F
+    var xMovement: Double = 0.0
+    var yMovement: Double = 0.0
+    var zMovement: Double = 0.0
 
 
-    fun setMovement(x: Float, y: Float, z: Float){
-        xMovement = x
-        yMovement = y
-        zMovement = z
+    fun setMovement(x: Double, y: Double, z: Double){
+        xMovement = abs(floor(x))
+        yMovement = abs(floor(y))
+        zMovement = abs(floor(z))
     }
 
-    fun getTotalMovement(): Float {
-        var test = xMovement + yMovement + zMovement
-        return test
+    fun getTotalMovement(): Double {
+        return xMovement + yMovement + zMovement
     }
 }

@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
     override fun onResume() {
         super.onResume()
         mAcceleration?.also { acceleration ->
-            sensorManagerMovement.registerListener(this, acceleration, SensorManager.SENSOR_DELAY_NORMAL)
+            sensorManagerMovement.registerListener(this, acceleration, 1000000)
         }
     }
 
@@ -62,13 +62,15 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        val accelerationX = event!!.values[0]
-        val accelerationY = event!!.values[1]
-        val accelerationZ = event!!.values[2]
+        val accelerationX = event!!.values[0].toDouble()
+        val accelerationY = event!!.values[1].toDouble()
+        val accelerationZ = event!!.values[2].toDouble()
 
         movementViewModel.setMovement(accelerationX, accelerationY, accelerationZ)
-        val yeet  = movementViewModel.getTotalMovement()
-        binding.xMovement.text = yeet.toString()
+        binding.totalMovement.text = movementViewModel.getTotalMovement().toString()
+        binding.xMovement.text = movementViewModel.xMovement.toString()
+        binding.yMovement.text = movementViewModel.yMovement.toString()
+        binding.zMovement.text = movementViewModel.zMovement.toString()
     }
 
 
@@ -92,6 +94,6 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
 
     private fun initializeMovementDetector() {
         sensorManagerMovement = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        mAcceleration = sensorManagerMovement.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        mAcceleration = sensorManagerMovement.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
     }
 }
