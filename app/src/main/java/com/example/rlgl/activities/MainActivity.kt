@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -16,7 +17,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import com.example.rlgl.R
 import com.example.rlgl.databinding.ActivityMainBinding
 import com.example.rlgl.viewmodels.MovementViewModel
 import com.example.rlgl.viewmodels.ShakeViewModel
@@ -72,6 +75,15 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
         binding.totalMovement.text = movementViewModel.getTotalMovement().toString()
 
         binding.movementDanger.setTextColor(Color.parseColor(movementViewModel.calculateMovementDangerColor()))
+
+
+        if(movementViewModel.getTotalMovement() > 4.0){
+            val drawable: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.shadow, null)
+            binding.mainView.setBackground(drawable)
+        } else {
+            val drawable: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.empty, null)
+            binding.mainView.setBackground(drawable)
+        }
     }
 
 
