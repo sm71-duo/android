@@ -20,18 +20,12 @@ import com.example.rlgl.viewmodels.MovementViewModel
 import com.example.rlgl.viewmodels.ShakeViewModel
 import com.squareup.seismic.ShakeDetector
 
-class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventListener {
+class MainActivity : AppCompatActivity(), SensorEventListener {
 
-    private var sensorManagerShaker: SensorManager? = null
     private lateinit var sensorManagerMovement: SensorManager
-    private var shakeDetector: ShakeDetector? = null
     private lateinit var binding: ActivityMainBinding
-
     private var mAcceleration: Sensor? = null
-
-    private val shakeViewModel: ShakeViewModel by viewModels()
     private val movementViewModel: MovementViewModel by viewModels()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +34,6 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
         val view: View = binding.root
         setContentView(view)
 
-        initializeShaker()
         initializeMovementDetector()
     }
 
@@ -71,25 +64,6 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
         binding.xMovement.text = movementViewModel.xMovement.toString()
         binding.yMovement.text = movementViewModel.yMovement.toString()
         binding.zMovement.text = movementViewModel.zMovement.toString()
-    }
-
-
-    override fun hearShake() {
-        shakeViewModel.updateShakesAmount()
-        binding.stepCounter.text = shakeViewModel.currentAmountOfShakes.toString()
-    }
-
-    private fun initializeShaker() {
-        sensorManagerShaker = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        shakeDetector = ShakeDetector(this);
-        shakeDetector!!.start(sensorManagerShaker)
-
-        if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(arrayOf(Manifest.permission.ACTIVITY_RECOGNITION), 1)
-            };
-        }
     }
 
     private fun initializeMovementDetector() {
