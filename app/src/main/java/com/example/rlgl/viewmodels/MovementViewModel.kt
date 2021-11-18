@@ -19,4 +19,18 @@ class MovementViewModel: ViewModel() {
     fun getTotalMovement(): Double {
         return xMovement + yMovement + zMovement
     }
+
+    fun calculateMovementDangerColor(): String {
+
+        when(getTotalMovement()){
+            0.0 -> return "#FFFFFF"
+            1.0 -> return "#FFFFFF"
+            2.0 -> return "#FFFFFF"
+            3.0 -> return "#FFb2b2"
+            4.0 -> return "#FF6666"
+            5.0 -> return "#FF0000"
+        }
+
+        return "#FF0000"
+    }
 }

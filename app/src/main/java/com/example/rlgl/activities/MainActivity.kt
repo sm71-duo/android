@@ -3,6 +3,7 @@ package com.example.rlgl.activities
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -15,6 +16,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.example.rlgl.databinding.ActivityMainBinding
 import com.example.rlgl.viewmodels.MovementViewModel
 import com.example.rlgl.viewmodels.ShakeViewModel
@@ -47,7 +49,7 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
     override fun onResume() {
         super.onResume()
         mAcceleration?.also { acceleration ->
-            sensorManagerMovement.registerListener(this, acceleration, 1000000)
+            sensorManagerMovement.registerListener(this, acceleration, 2000000)
         }
     }
 
@@ -68,9 +70,8 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
 
         movementViewModel.setMovement(accelerationX, accelerationY, accelerationZ)
         binding.totalMovement.text = movementViewModel.getTotalMovement().toString()
-        binding.xMovement.text = movementViewModel.xMovement.toString()
-        binding.yMovement.text = movementViewModel.yMovement.toString()
-        binding.zMovement.text = movementViewModel.zMovement.toString()
+
+        binding.movementDanger.setTextColor(Color.parseColor(movementViewModel.calculateMovementDangerColor()))
     }
 
 
