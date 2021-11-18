@@ -3,23 +3,35 @@ package com.example.rlgl.activities
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.example.rlgl.databinding.ActivityMainBinding
+import com.example.rlgl.viewmodels.MovementViewModel
 import com.example.rlgl.viewmodels.ShakeViewModel
 import com.squareup.seismic.ShakeDetector
 
-class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
+class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventListener {
 
-    private var sensorManager: SensorManager? = null
+    private var sensorManagerShaker: SensorManager? = null
+    private lateinit var sensorManagerMovement: SensorManager
     private var shakeDetector: ShakeDetector? = null
     private lateinit var binding: ActivityMainBinding
 
-    private  val shakeViewModel: ShakeViewModel = ShakeViewModel()
+    private var mAcceleration: Sensor? = null
+
+    private val shakeViewModel: ShakeViewModel by viewModels()
+    private val movementViewModel: MovementViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +41,38 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
         setContentView(view)
 
         initializeShaker()
+        initializeMovementDetector()
     }
+
+    override fun onResume() {
+        super.onResume()
+        mAcceleration?.also { acceleration ->
+            sensorManagerMovement.registerListener(this, acceleration, 1000000)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sensorManagerMovement.unregisterListener(this)
+    }
+
+
+    override fun onAccuracyChanged(event: Sensor?, accuracy: Int) {
+
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        val accelerationX = event!!.values[0].toDouble()
+        val accelerationY = event!!.values[1].toDouble()
+        val accelerationZ = event!!.values[2].toDouble()
+
+        movementViewModel.setMovement(accelerationX, accelerationY, accelerationZ)
+        binding.totalMovement.text = movementViewModel.getTotalMovement().toString()
+        binding.xMovement.text = movementViewModel.xMovement.toString()
+        binding.yMovement.text = movementViewModel.yMovement.toString()
+        binding.zMovement.text = movementViewModel.zMovement.toString()
+    }
+
 
     override fun hearShake() {
         shakeViewModel.updateShakesAmount()
@@ -37,9 +80,9 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
     }
 
     private fun initializeShaker() {
-        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sensorManagerShaker = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         shakeDetector = ShakeDetector(this);
-        shakeDetector!!.start(sensorManager)
+        shakeDetector!!.start(sensorManagerShaker)
 
         if(ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){
@@ -47,5 +90,10 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener {
                 requestPermissions(arrayOf(Manifest.permission.ACTIVITY_RECOGNITION), 1)
             };
         }
+    }
+
+    private fun initializeMovementDetector() {
+        sensorManagerMovement = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        mAcceleration = sensorManagerMovement.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
     }
 }
