@@ -109,14 +109,9 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
          val emptyGradient: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.empty, null)
 
         when(movementValue){
-            0.0 -> return emptyGradient
-            1.0 -> return emptyGradient
-            2.0 -> return emptyGradient
-            3.0 -> return emptyGradient
-            4.0 -> return gradientOne
-            5.0 -> return gradientTwo
-            6.0 -> return gradientTwo
-            7.0 -> return gradientThree
+            in 0.0..4.0 -> return emptyGradient
+            in 4.0..5.0 -> return gradientOne
+            in 5.0..7.0 -> return gradientTwo
         }
         return gradientThree
     }
