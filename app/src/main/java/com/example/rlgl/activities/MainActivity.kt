@@ -12,13 +12,10 @@ import android.hardware.SensorManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.isVisible
 import com.example.rlgl.R
 import com.example.rlgl.databinding.ActivityMainBinding
 import com.example.rlgl.viewmodels.MovementViewModel
@@ -41,12 +38,14 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
 
         initializeShaker()
         initializeMovementDetector()
+
     }
 
     override fun onResume() {
@@ -76,14 +75,7 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
 
         binding.movementDanger.setTextColor(Color.parseColor(movementViewModel.calculateMovementDangerColor()))
 
-
-        if(movementViewModel.getTotalMovement() > 4.0){
-            val drawable: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.shadow, null)
-            binding.mainView.setBackground(drawable)
-        } else {
-            val drawable: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.empty, null)
-            binding.mainView.setBackground(drawable)
-        }
+        binding.mainView.background = returnBackgroundGradient(movementViewModel.getTotalMovement())
     }
 
 
@@ -108,5 +100,24 @@ class MainActivity : AppCompatActivity(), ShakeDetector.Listener, SensorEventLis
     private fun initializeMovementDetector() {
         sensorManagerMovement = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         mAcceleration = sensorManagerMovement.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
+    }
+
+    private fun returnBackgroundGradient(movementValue: Double): Drawable? {
+         val gradientOne: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.gradient_one, null)
+         val gradientTwo: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.gradient_two, null)
+         val gradientThree: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.gradient_three, null)
+         val emptyGradient: Drawable? = ResourcesCompat.getDrawable(resources, R.drawable.empty, null)
+
+        when(movementValue){
+            0.0 -> return emptyGradient
+            1.0 -> return emptyGradient
+            2.0 -> return emptyGradient
+            3.0 -> return emptyGradient
+            4.0 -> return gradientOne
+            5.0 -> return gradientTwo
+            6.0 -> return gradientTwo
+            7.0 -> return gradientThree
+        }
+        return gradientThree
     }
 }
