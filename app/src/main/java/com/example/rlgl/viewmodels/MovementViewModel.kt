@@ -24,9 +24,9 @@ class MovementViewModel: ViewModel() {
     fun calculateMovementDangerColor(): String {
 
         when(getTotalMovement()){
-            in 0.0..3.0 -> return "#FFFFFF"
-            in 3.0..4.0 -> return "#FFb2b2"
-            in 4.0..5.0 -> return "#FF6666"
+            in 0.0..4.0 -> return "#FFFFFF"
+            in 4.0..5.0 -> return "#FFb2b2"
+            in 5.0..7.0 -> return "#FF6666"
         }
 
         return "#FF0000"
