@@ -69,7 +69,7 @@ class ShakeFragment : Fragment(), ShakeDetector.Listener {
 
         // Update fragment color when shakes complete
         if(shakeViewModel.shakesCompleted){
-            binding.fragmentLayout.setBackgroundColor(getResources().getColor(R.color.green_900))
+            binding.fragmentLayout.setBackgroundColor(getResources().getColor(R.color.green_900)) // Deprecated, looking for better solution
         }
     }
 }

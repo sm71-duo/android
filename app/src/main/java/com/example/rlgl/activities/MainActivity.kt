@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.example.rlgl.R
 import com.example.rlgl.databinding.ActivityMainBinding
+import com.example.rlgl.viewmodels.GameViewModel
 import com.example.rlgl.viewmodels.MovementViewModel
 import com.example.rlgl.viewmodels.ShakeViewModel
 import com.squareup.seismic.ShakeDetector
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var binding: ActivityMainBinding
     private var mAcceleration: Sensor? = null
     private val movementViewModel: MovementViewModel by viewModels()
+    private val gameViewModel: GameViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +61,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
+//        if(gameViewModel.greenlight) return //For later
         val accelerationX = event!!.values[0].toDouble()
         val accelerationY = event!!.values[1].toDouble()
         val accelerationZ = event!!.values[2].toDouble()
