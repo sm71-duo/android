@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import java.util.*
 
 class GameViewModel : ViewModel() {
-    var greenlight: Boolean = true;
-    var isGameRunning: Boolean = false;
+    var greenlight: Boolean = true
+    var isGameRunning: Boolean = false
     var interval: Long = 3000
 
     fun startGame() {
-        isGameRunning = true;
+        isGameRunning = true
         startInterval()
     }
 
