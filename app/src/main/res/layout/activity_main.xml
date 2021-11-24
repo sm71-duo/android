@@ -42,18 +42,17 @@
             android:layout_marginBottom="79dp"
             android:text="0"
             android:textSize="40sp" />
-
-        <TextView
-            android:id="@+id/movementDanger"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="157dp"
-            android:layout_marginBottom="7dp"
-            android:text="panic"
-            android:textSize="40sp" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/background"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container_view"
+            android:name="com.example.rlgl.fragments.ShakeFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
     </RelativeLayout>
 
 
