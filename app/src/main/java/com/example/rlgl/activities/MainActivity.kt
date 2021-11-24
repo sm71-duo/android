@@ -66,8 +66,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         movementViewModel.setMovement(accelerationX, accelerationY, accelerationZ)
         binding.totalMovement.text = movementViewModel.getTotalMovement().toString()
 
-        binding.movementDanger.setTextColor(Color.parseColor(movementViewModel.calculateMovementDangerColor()))
-
         binding.mainView.background = returnBackgroundGradient(movementViewModel.getTotalMovement())
     }
 
