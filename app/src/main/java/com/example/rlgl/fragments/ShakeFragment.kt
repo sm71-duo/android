@@ -57,6 +57,7 @@ class ShakeFragment : Fragment(), ShakeDetector.Listener {
     }
 
     override fun hearShake() {
+        if(shakeViewModel.shakesCompleted) return
         shakeViewModel.updateShakesAmount()
         val stepCounterText = "${shakeViewModel.currentAmountOfShakes} / ${shakeViewModel.totalShakes}"
         binding.stepCounter.text = stepCounterText
