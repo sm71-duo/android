@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         val accelerationZ = event!!.values[2].toDouble()
 
         movementViewModel.setMovement(accelerationX, accelerationY, accelerationZ)
-        binding.totalMovement.text = movementViewModel.getTotalMovement().toString()
 
         binding.mainView.background = returnBackgroundGradient(movementViewModel.getTotalMovement())
     }
