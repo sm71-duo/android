@@ -6,9 +6,10 @@
     tools:context=".fragments.ShakeFragment">
 
     <RelativeLayout
+        android:id="@+id/fragmentLayout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/background">
+        android:background="@color/red_400">
 
         <TextView
             android:id="@+id/stepCounter"
