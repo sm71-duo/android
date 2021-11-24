@@ -9,7 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background">#333333</color>
     <color name="red_300">#190000</color>
-    <color name="red_400">#A41818</color>
     <color name="red_600">#660000</color>
+    <color name="red_700">#A41818</color>
     <color name="red_900">#FF0000</color>
+    <color name="green_900">#0FB40F</color>
 </resources>

@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import com.example.rlgl.R
 import com.example.rlgl.databinding.FragmentShakeBinding
 import com.example.rlgl.viewmodels.GameViewModel
 import com.example.rlgl.viewmodels.ShakeViewModel
@@ -62,7 +65,7 @@ class ShakeFragment : Fragment(), ShakeDetector.Listener {
         val stepCounterText = "${shakeViewModel.currentAmountOfShakes} / ${shakeViewModel.totalShakes}"
         binding.stepCounter.text = stepCounterText
         if(shakeViewModel.shakesCompleted){
-            binding.fragmentLayout.setBackgroundColor(Color.parseColor("#0FB40F"))
+            binding.fragmentLayout.setBackgroundColor(getResources().getColor(R.color.green_900))
         }
     }
 }
