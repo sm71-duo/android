@@ -30,8 +30,13 @@ class ShakeFragment : Fragment(), ShakeDetector.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Initialize shake detector. We need to retrieve the system service on the parent activity
+        sensorManagerShaker = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        shakeDetector = ShakeDetector(this)
         shakeDetector!!.start(sensorManagerShaker)
-        gameViewModel.startGame()
+
+        // Do not use yet
+        // gameViewModel.startGame()
     }
 
     override fun onCreateView(
@@ -43,10 +48,6 @@ class ShakeFragment : Fragment(), ShakeDetector.Listener {
         // Initialize the view models
         shakeViewModel = ViewModelProvider(this).get(ShakeViewModel::class.java)
         gameViewModel = ViewModelProvider(this).get(GameViewModel::class.java)
-
-        // Initialize shake detector. We need to retrieve the system service on the parent activity
-        sensorManagerShaker = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        shakeDetector = ShakeDetector(this)
 
         // Display correct text on startup
         val stepCounterText = "${shakeViewModel.currentAmountOfShakes} / ${shakeViewModel.totalShakes}"
