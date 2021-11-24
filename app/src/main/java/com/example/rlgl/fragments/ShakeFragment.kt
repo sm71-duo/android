@@ -60,10 +60,14 @@ class ShakeFragment : Fragment(), ShakeDetector.Listener {
     }
 
     override fun hearShake() {
+        // Cancel shake update when shakes complete
         if(shakeViewModel.shakesCompleted) return
+
         shakeViewModel.updateShakesAmount()
         val stepCounterText = "${shakeViewModel.currentAmountOfShakes} / ${shakeViewModel.totalShakes}"
         binding.stepCounter.text = stepCounterText
+
+        // Update fragment color when shakes complete
         if(shakeViewModel.shakesCompleted){
             binding.fragmentLayout.setBackgroundColor(getResources().getColor(R.color.green_900))
         }
