@@ -37,6 +37,8 @@ class GameViewModel : ViewModel() {
     init {
         _greenLight.value = true
         _eventGameFinished.value = false
+
+        startGame()
     }
 
     fun onGameFinish() {
