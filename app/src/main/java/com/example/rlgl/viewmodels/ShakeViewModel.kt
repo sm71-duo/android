@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 
 class ShakeViewModel : ViewModel() {
     var currentAmountOfShakes : Int = 0
-    var totalShakes : Int = 10
+    var totalShakes : Int = 100
     var shakesCompleted : Boolean = false
 
     private fun setComplete() {
