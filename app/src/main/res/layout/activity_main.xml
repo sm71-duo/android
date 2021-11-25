@@ -8,28 +8,47 @@
     android:background="@drawable/animation_list"
     tools:context=".activities.MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <RelativeLayout
-        android:layout_width="408dp"
-        android:layout_height="214dp"
+        android:layout_width="match_parent"
+        android:layout_height="104dp"
         android:background="@android:color/transparent"
+        android:elevation="-8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:elevation="-8dp">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/background"
-        app:layout_constraintTop_toTopOf="parent">
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_container_view"
-            android:name="com.example.rlgl.fragments.ShakeFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragment_container_view"
+                android:name="com.example.rlgl.fragments.ShakeFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
     </RelativeLayout>
+
+        <TextView
+            android:id="@+id/action_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textFontWeight="900"
+            android:textSize="40sp" />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

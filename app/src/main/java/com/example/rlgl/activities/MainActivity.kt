@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         gameViewModel = ViewModelProvider(this).get(GameViewModel::class.java)
         gameViewModel.greenLight.observe(this, { isGreenLight ->
             isGreen = isGreenLight
+            updateActionText(isGreenLight)
         })
 
         initializeMovementDetector()
@@ -77,6 +78,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         movementViewModel.setMovement(accelerationX, accelerationY, accelerationZ)
 
         binding.mainView.background = returnBackgroundGradient(movementViewModel.getTotalMovement())
+    }
+
+    private fun updateActionText(isGreenLight: Boolean){
+        if (isGreenLight)  binding.actionText.text = "START SHAKING"
+        else binding.actionText.text = "STOP MOVING"
     }
 
     private fun initializeMovementDetector() {
