@@ -36,7 +36,7 @@ class ShakeFragment : Fragment(), ShakeDetector.Listener {
 
         // Initialize the view models
         shakeViewModel = ViewModelProvider(this).get(ShakeViewModel::class.java)
-        gameViewModel = ViewModelProvider(this).get(GameViewModel::class.java)
+        gameViewModel = ViewModelProvider(requireActivity()).get(GameViewModel::class.java)
 
         // Initialize shake detector. We need to retrieve the system service on the parent activity
         sensorManagerShaker = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
