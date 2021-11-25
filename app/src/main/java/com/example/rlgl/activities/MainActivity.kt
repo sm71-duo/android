@@ -16,6 +16,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.rlgl.R
 import com.example.rlgl.databinding.ActivityMainBinding
 import com.example.rlgl.viewmodels.GameViewModel
@@ -29,24 +30,29 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var binding: ActivityMainBinding
     private var mAcceleration: Sensor? = null
     private val movementViewModel: MovementViewModel by viewModels()
-    private val gameViewModel: GameViewModel by viewModels()
+    private lateinit var gameViewModel: GameViewModel
+
+    private var isGreen: Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view: View = binding.root
         setContentView(view)
 
-        initializeMovementDetector()
+        gameViewModel = ViewModelProvider(this).get(GameViewModel::class.java)
+        gameViewModel.greenLight.observe(this, { isGreenLight ->
+            isGreen = isGreenLight
+        })
 
+        initializeMovementDetector()
     }
 
     override fun onResume() {
         super.onResume()
         mAcceleration?.also { acceleration ->
-            sensorManagerMovement.registerListener(this, acceleration, 2000000)
+            sensorManagerMovement.registerListener(this, acceleration, 1000000)
         }
     }
 
@@ -57,11 +63,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
 
     override fun onAccuracyChanged(event: Sensor?, accuracy: Int) {
-
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-//        if(gameViewModel.greenlight) return //For later
+        if(isGreen == true) {
+            binding.mainView.background = returnBackgroundGradient(0.0)
+            return
+        }
         val accelerationX = event!!.values[0].toDouble()
         val accelerationY = event!!.values[1].toDouble()
         val accelerationZ = event!!.values[2].toDouble()
